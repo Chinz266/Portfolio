@@ -1,65 +1,129 @@
-import Image from "next/image";
+// components/WorksSection.tsx
+import { getGithubRepos } from '@/lib/github';
+import { Globe } from "lucide-react";
 
-export default function Home() {
+async function WorksSection() {
+  const repos = await getGithubRepos();
+  const myRepos = repos.filter((repo: any) => !repo.fork);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <section className="my-12">
+      <h2 className="text-4xl font-bold mb-7 text-gray-900 tracking-tight">Works</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {myRepos.map((repo: any) => (
+          <a
+            key={repo.id}
+            href={repo.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white border border-gray-200 rounded-2xl px-5 py-5 min-h-30 hover:border-gray-300 transition-colors"
+          >
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-3xl font-bold text-gray-900 leading-tight">{repo.name}</h3>
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+              </div>
+
+              <p className="text-2xl text-gray-500 mt-3 leading-relaxed line-clamp-2">
+                {repo.description || 'No description provided.'}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+export default async function Portfolio() {
+  return (
+    <main className="max-w-4xl mx-auto px-6 py-12 md:py-20 font-sans text-gray-900">
+
+      {/* 1. Header Section */}
+      <section className="flex flex-col-reverse md:flex-row justify-between items-start gap-6 mb-12">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight mb-2">Tongchin Phonnanthasahwat</h1>
+          <p className="text-gray-600 mb-2">
+            Full-stack developer enthusiast with an eye for clean design. ✨
           </p>
+          <p className="flex items-center text-gray-500 text-sm mb-4">
+            <Globe className="w-4 h-4 mr-1" /> Nakhon Ratchasima, Thailand
+          </p>
+
+          {/* <div className="flex gap-2">
+            {[Mail, GithubIcon, LinkedinIcon, Discord, Send, RefreshCcw].map((Icon, index) => (
+              <button key={index} className="p-2 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors">
+                <Icon className="w-4 h-4 text-gray-600" />
+              </button>
+            ))}
+          </div> */}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden shrink-0">
+          <img
+            src="/img/avatar.jpg"
+            alt="Profile Avatar"
+            className="w-full h-full object-cover"
+          />
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* 2. About Section */}
+      <section className="mb-12">
+        <h2 className="text-xl font-bold mb-4">About</h2>
+        <p className="text-gray-600 leading-relaxed text-sm md:text-base">
+          I am a beginner Full-stack developer who loves learning and playing around with new tech. I am always looking to improve my skills in both coding and design.
+        </p>
+      </section>
+
+      {/* 3. Work Experience Section */}
+      {/* <section className="mb-12">
+        <h2 className="text-xl font-bold mb-6">Work Experience</h2>
+
+        <div className="mb-8">
+          <div className="flex justify-between items-baseline mb-1">
+            <h3 className="text-lg font-semibold flex items-center gap-3">
+              MFEC Public Company Limited
+              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-normal">Internship</span>
+            </h3>
+          </div>
+          <p className="text-gray-700 text-sm mb-2">Fullstack Intern</p>
+          <ul className="list-disc list-inside text-gray-500 text-sm space-y-1">
+            <li>Developed low-code solutions using Appsmith and Supabase</li>
+            <li>Collaborated with team to deliver internal tools efficiently</li>
+            <li>Integrated APIs and automated workflows for business processes</li>
+          </ul>
+        </div>
+
+        <div>
+          <div className="flex justify-between items-baseline mb-1">
+            <h3 className="text-lg font-semibold">RDCW</h3>
+          </div>
+          <p className="text-gray-700 text-sm mb-2">Fullstack Developer</p>
+          <ul className="list-disc list-inside text-gray-500 text-sm space-y-1">
+            <li>Led development of client projects using Next.js, React and Node.js</li>
+            <li>Built responsive designs and E2E APIs</li>
+            <li>Maintained and updated existing projects</li>
+          </ul>
+        </div>
+      </section> */}
+
+      {/* 4. Skills Section */}
+      <section className="mb-12">
+        <h2 className="text-xl font-bold mb-6">Skills</h2>
+        <div className="flex flex-wrap gap-2">
+          {/* ตัวอย่าง Skills (สามารถเพิ่มไอคอน SVG ของจริงได้ทีหลัง) */}
+          {["Bun", "Golang", "TypeScript", "NestJS", "Next.js", "SCSS", "MySQL",].map((skill) => (
+            <div key={skill} className="flex items-center gap-1.5 border border-gray-200 bg-white px-2.5 py-1 rounded-md text-xs font-medium text-gray-700 hover:bg-gray-50 cursor-default">
+              {/* <div className="w-3 h-3 bg-gray-200 rounded-sm"></div> Placeholder สำหรับ Icon */}
+              {skill}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <WorksSection />
+
+    </main>
   );
 }
